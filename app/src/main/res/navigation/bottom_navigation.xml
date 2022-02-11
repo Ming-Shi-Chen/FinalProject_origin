@@ -7,17 +7,26 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.finalproject_origin.HomeFragment"
+        android:name="com.example.finalproject_origin.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/surfingFragment"
-        android:name="com.example.finalproject_origin.SurfingFragment"
+        android:name="com.example.finalproject_origin.ui.SurfingFragment"
         android:label="fragment_surfing"
         tools:layout="@layout/fragment_surfing" />
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.example.finalproject_origin.UserFragment"
+        android:name="com.example.finalproject_origin.ui.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_registFragment"
+            app:destination="@id/registFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registFragment"
+        android:name="com.example.finalproject_origin.ui.RegistFragment"
+        android:label="fragment_regist"
+        tools:layout="@layout/fragment_regist" />
 </navigation>

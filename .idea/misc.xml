@@ -5,10 +5,12 @@
       <map>
         <entry key="..\:/github/FinalProject_origin/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1195" />
         <entry key="..\:/github/FinalProject_origin/app/src/main/res/drawable/ic_shopping_cart.xml" value="0.118" />
-        <entry key="..\:/github/FinalProject_origin/app/src/main/res/layout/activity_main.xml" value="0.30925925925925923" />
+        <entry key="..\:/github/FinalProject_origin/app/src/main/res/layout/activity_main.xml" value="0.18862275449101795" />
         <entry key="..\:/github/FinalProject_origin/app/src/main/res/layout/fragment_home.xml" value="0.3515625" />
+        <entry key="..\:/github/FinalProject_origin/app/src/main/res/layout/fragment_regist.xml" value="0.27685185185185185" />
         <entry key="..\:/github/FinalProject_origin/app/src/main/res/layout/fragment_surfing.xml" value="0.36614583333333334" />
         <entry key="..\:/github/FinalProject_origin/app/src/main/res/layout/fragment_user.xml" value="0.36614583333333334" />
+        <entry key="..\:/github/FinalProject_origin/app/src/main/res/layout/fragment_user_center.xml" value="0.36614583333333334" />
         <entry key="..\:/github/FinalProject_origin/app/src/main/res/menu/bottom_nav_menu.xml" value="0.30925925925925923" />
       </map>
     </option>

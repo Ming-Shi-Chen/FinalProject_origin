@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "11720350020",
+    "firebase_url": "https://jobtrain-finalproject-default-rtdb.firebaseio.com",
+    "project_id": "jobtrain-finalproject",
+    "storage_bucket": "jobtrain-finalproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11720350020:android:077628944537d7baaa1f11",
+        "android_client_info": {
+          "package_name": "com.example.finalproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11720350020-heda54s4ng0r2t1r7eonhduud9ac5tc4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXmGxPS9kqGMjKaSFOv3WQV-k13c2YPPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11720350020-heda54s4ng0r2t1r7eonhduud9ac5tc4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11720350020:android:deba18de7ea9c525aa1f11",
+        "android_client_info": {
+          "package_name": "com.example.finalproject_origin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11720350020-heda54s4ng0r2t1r7eonhduud9ac5tc4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXmGxPS9kqGMjKaSFOv3WQV-k13c2YPPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11720350020-heda54s4ng0r2t1r7eonhduud9ac5tc4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11720350020:android:5e324e74d867f269aa1f11",
+        "android_client_info": {
+          "package_name": "com.example.shoppingPlatform"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11720350020-heda54s4ng0r2t1r7eonhduud9ac5tc4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXmGxPS9kqGMjKaSFOv3WQV-k13c2YPPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11720350020-heda54s4ng0r2t1r7eonhduud9ac5tc4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
