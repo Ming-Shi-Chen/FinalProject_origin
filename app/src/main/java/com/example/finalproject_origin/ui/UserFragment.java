@@ -100,7 +100,7 @@ public class UserFragment extends Fragment {
                     String password = et_user_password.getText().toString();
                     if(mainActivity.firebaseLoginCheck(id, password)){
 
-                        mainActivity.showUserCenterFragment();
+                        mainActivity.showSendingFragment();
                     } else {
                         mainActivity.makeToast("The id or password was wrong!!!!");
                     }

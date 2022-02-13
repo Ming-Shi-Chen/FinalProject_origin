@@ -131,9 +131,11 @@ public class RegistFragment extends Fragment {
                 data.put("name",name);
                 data.put("password",password);
                 data.put("email",email);
-                Task<Void> result = mainActivity.customerFirebaseDataSet(id,data);
+                Task<Void> result = mainActivity.customerFirebaseDataSet(id,data,name);
                 result.addOnSuccessListener(unused -> {
                    mainActivity.makeToast("Registering ok~~~~~");
+
+                   mainActivity.showSendingFragment();
                 });
 
                 result.addOnFailureListener(e -> {

@@ -75,6 +75,7 @@ public class ArticleFragment extends Fragment {
         tv_article_title = v.findViewById(R.id.tv_article_title);
         tv_article_content = v.findViewById(R.id.tv_article_content);
 
+
         Map<String,String> articleData = mainActivity.getArticle(mainActivity.articleIndex);
 
         String title = articleData.get("title");

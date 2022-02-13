@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
         startFragment(registFragment, "regist");
     }
 
-    public void showUserCenterFragment(){
+    public void showSendingFragment(){
         getSupportActionBar().setTitle("Hi "+loginName+"~~~");
         startFragment(sendingFragment, "userCenter");
     }
@@ -265,8 +265,12 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public Task<Void> customerFirebaseDataSet(String id, Map<String,String> data){
+    public Task<Void> customerFirebaseDataSet(String id, Map<String,String> data, String name){
         Task<Void> result = customerDataReference.child(id).setValue(data);
+
+        loginId = id;
+        loginName = name;
+        loginFlag = true;
 
         return result;
     }
