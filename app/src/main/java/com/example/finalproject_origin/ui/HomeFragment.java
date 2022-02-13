@@ -7,7 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import com.example.finalproject_origin.MainActivity;
 import com.example.finalproject_origin.R;
 
 /**
@@ -63,8 +67,26 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+
+        ListView listView_home_article = v.findViewById(R.id.listView_home_article);
+
+        listView_home_article.setAdapter(mainActivity.adapter);
+
+        listView_home_article.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                mainActivity.showArticleFragment(i);
+
+            }
+        });
 
 
-        return inflater.inflate(R.layout.fragment_home, container, false);
+
+
+        return v;
     }
 }

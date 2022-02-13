@@ -2,6 +2,7 @@ package com.example.finalproject_origin;
 
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,17 +12,27 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 
+import com.example.finalproject_origin.ui.ArticleFragment;
 import com.example.finalproject_origin.ui.HomeFragment;
 import com.example.finalproject_origin.ui.RegistFragment;
 import com.example.finalproject_origin.ui.SurfingFragment;
-import com.example.finalproject_origin.ui.UserCenterFragment;
+import com.example.finalproject_origin.ui.SendingFragment;
 import com.example.finalproject_origin.ui.UserFragment;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,9 +48,21 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTransaction transaction;
     private FragmentManager fragmentManager;
     private UserFragment userFragment;
-    private UserCenterFragment userCenterFragment;
+    private SendingFragment sendingFragment;
     private FirebaseDatabase firebaseControl;
-    private DatabaseReference dataReference;
+    private DatabaseReference customerDataReference;
+    private DatabaseReference articleDataReference;
+    private ArrayList<Map<String, String>> customerList;
+    private ArrayList<Map<String, String>> articleList;
+    private ArrayList<Map<String, String>> loginArticleList;
+    private ArrayList<String> homeTitleList ;
+
+    public String loginName, loginId;
+    public boolean loginFlag;
+    public String articleNewId;
+    public ArrayAdapter<String> adapter;
+    private ArticleFragment articleFragment;
+    public int articleIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         firebaseControl = FirebaseDatabase.getInstance();
-        dataReference = firebaseControl.getReference().child("customer");
+        customerDataReference = firebaseControl.getReference().child("customer");
+        articleDataReference = firebaseControl.getReference().child("article");
 
         fragmentManager = getSupportFragmentManager();
 
@@ -56,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
         surfingFragment = SurfingFragment.newInstance("", "");
         userFragment = UserFragment.newInstance("", "");
         registFragment = RegistFragment.newInstance("","");
-        userCenterFragment = UserCenterFragment.newInstance("","");
+        sendingFragment = SendingFragment.newInstance("","");
+        articleFragment = ArticleFragment.newInstance("","");
 
 
 //        fragmentManager.beginTransaction()
@@ -88,6 +113,81 @@ public class MainActivity extends AppCompatActivity {
 //        NavigationUI.setupWithNavController(navView, navController);
 
 
+        customerList = new ArrayList<>();
+        articleList = new ArrayList<>();
+        loginArticleList = new ArrayList<>();
+        homeTitleList = new ArrayList<>();
+
+        customerDataReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                customerList.clear();
+
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    Map<String, String> data = new HashMap<>();
+
+                    String userId = (String) ds.child("id").getValue();
+                    String userName = (String) ds.child("name").getValue();
+                    String userEmail = (String) ds.child("email").getValue();
+                    String userPassword = (String) ds.child("password").getValue();
+
+                    data.put("id",userId);
+                    data.put("name",userName);
+                    data.put("password",userPassword);
+                    data.put("email",userEmail);
+
+                    customerList.add(data);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        articleDataReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                articleList.clear();
+                homeTitleList.clear();
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    Map<String, String> data = new HashMap<>();
+                    String userId = (String) ds.child("id").getValue();
+                    String userName = (String) ds.child("name").getValue();
+                    String title = (String) ds.child("title").getValue();
+                    String content = (String) ds.child("content").getValue();
+
+                    data.put("id",userId);
+                    data.put("name",userName);
+                    data.put("title",title);
+                    data.put("content",content);
+
+                    articleList.add(data);
+                    homeTitleList.add(title);
+                }
+
+                articleNewId = String.valueOf(articleList.size()+1);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        if( loginFlag){
+
+
+        }
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,homeTitleList);
+
+
+
         navView.setOnItemSelectedListener(item -> {
 
             switch (item.getItemId()){
@@ -103,14 +203,22 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.navigation_user:
-                    getSupportActionBar().setTitle("User");
-                    startFragment(userFragment,"home");
+
+                    if (loginFlag) {
+                        getSupportActionBar().setTitle("Hi "+loginName+"~~~");
+                        startFragment(sendingFragment,"sending");
+                    }else {
+                        getSupportActionBar().setTitle("User");
+                        startFragment(userFragment,"home");
+                    }
+
+
                     break;
             }
 
             return true;
         });
-    }
+    } //end of onCreate
 
     private void startFragment(Fragment fragment,String tag){
         getSupportFragmentManager().beginTransaction()
@@ -123,8 +231,73 @@ public class MainActivity extends AppCompatActivity {
 
     public void showRegistFragment() {
         startFragment(registFragment, "regist");
-
     }
+
+    public void showUserCenterFragment(){
+        getSupportActionBar().setTitle("Hi "+loginName+"~~~");
+        startFragment(sendingFragment, "userCenter");
+    }
+
+    public void showArticleFragment(int i){
+
+        articleIndex = i;
+        startFragment(articleFragment,"article");
+    }
+
+    public Map<String, String> getArticle (int index) {
+
+        Map<String, String> article = articleList.get(index);
+
+        return article;
+    }
+
+
+
+    public boolean customerFirebaseDataCheck(String key, String value) {
+
+        for (int i=0; i< customerList.size(); i++) {
+            Map<String, String> data = customerList.get(i);
+            String firebaseData = data.get(key);
+            if (firebaseData.equals(value)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Task<Void> customerFirebaseDataSet(String id, Map<String,String> data){
+        Task<Void> result = customerDataReference.child(id).setValue(data);
+
+        return result;
+    }
+
+    public Task<Void> articleFirebaseDataSet(Map<String, String> data){
+
+        Task<Void> result = articleDataReference.child(articleNewId).setValue(data);
+
+        return result;
+    }
+
+    public boolean firebaseLoginCheck(String id,String password){
+
+        for (int i=0; i< customerList.size(); i++) {
+            Map<String, String> data = customerList.get(i);
+            String customerId = data.get("id");
+            String customerPassword = data.get("password");
+
+            if (customerId.equals(id)) {
+                if (customerPassword.equals(password)) {
+                    loginId = id;
+                    loginName = data.get("name");
+                    loginFlag = true;
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
 
     public void makeToast(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();

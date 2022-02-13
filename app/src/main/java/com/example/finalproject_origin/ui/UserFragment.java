@@ -96,9 +96,15 @@ public class UserFragment extends Fragment {
 
                 case R.id.btn_user_login:
 
+                    String id = et_user_id.getText().toString();
+                    String password = et_user_password.getText().toString();
+                    if(mainActivity.firebaseLoginCheck(id, password)){
 
-                    et_user_id.setText("");
-                    et_user_password.setText("");
+                        mainActivity.showUserCenterFragment();
+                    } else {
+                        mainActivity.makeToast("The id or password was wrong!!!!");
+                    }
+
                     break;
 
                 case R.id.btn_user_regist:

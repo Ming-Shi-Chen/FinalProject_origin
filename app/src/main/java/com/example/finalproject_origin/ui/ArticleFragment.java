@@ -1,21 +1,25 @@
 package com.example.finalproject_origin.ui;
 
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.finalproject_origin.MainActivity;
 import com.example.finalproject_origin.R;
-import com.example.finalproject_origin.ui.HomeFragment;
+
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link UserCenterFragment#newInstance} factory method to
+ * Use the {@link ArticleFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
-public class UserCenterFragment extends Fragment {
+public class ArticleFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,26 +30,26 @@ public class UserCenterFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    public ArticleFragment() {
+        // Required empty public constructor
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment UserCenter.
+     * @return A new instance of fragment ArticleFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UserCenterFragment newInstance(String param1, String param2) {
-        UserCenterFragment fragment = new UserCenterFragment();
+    public static ArticleFragment newInstance(String param1, String param2) {
+        ArticleFragment fragment = new ArticleFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public UserCenterFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -57,14 +61,31 @@ public class UserCenterFragment extends Fragment {
         }
     }
 
+    private TextView tv_article_title, tv_article_content;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        View v = inflater.inflate(R.layout.fragment_article, container, false);
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+
+        tv_article_title = v.findViewById(R.id.tv_article_title);
+        tv_article_content = v.findViewById(R.id.tv_article_content);
+
+        Map<String,String> articleData = mainActivity.getArticle(mainActivity.articleIndex);
+
+        String title = articleData.get("title");
+        String content = articleData.get("content");
+
+        tv_article_title.setText(title);
+        tv_article_content.setText(content);
 
 
+        return v;
 
-        return inflater.inflate(R.layout.fragment_user_center, container, false);
+
     }
 }

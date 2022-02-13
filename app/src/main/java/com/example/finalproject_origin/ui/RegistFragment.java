@@ -9,14 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.finalproject_origin.MainActivity;
 import com.example.finalproject_origin.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.tasks.Task;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -71,9 +69,6 @@ public class RegistFragment extends Fragment {
 
     private EditText et_regist_id, et_regist_name, et_regist_email, et_regist_password, et_regist_password2;
     private Button btn_regist_cancel, btn_regist_regist;
-    private FirebaseDatabase firebaseControl;
-    private DatabaseReference dataReference;
-    private ArrayList<Map<String, String>> customerList;
 
 
     @Override
@@ -81,9 +76,6 @@ public class RegistFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_regist, container, false);
-
-        firebaseControl = FirebaseDatabase.getInstance();
-        dataReference = firebaseControl.getReference().child("customer");
 
         MainActivity mainActivity = (MainActivity) getActivity();
 
@@ -104,7 +96,6 @@ public class RegistFragment extends Fragment {
             et_regist_password2.setText("");
         });
 
-        customerList = new ArrayList<>();
 
 
         btn_regist_regist.setOnClickListener(view -> {
@@ -118,7 +109,39 @@ public class RegistFragment extends Fragment {
 
             } else {
 
+                String id = et_regist_id.getText().toString();
+                String password = et_regist_password.getText().toString();
+                String password2 = et_regist_password2.getText().toString();
+                String name = et_regist_name.getText().toString();
+                String email = et_regist_email.getText().toString();
+
+                if ( ! password.equals(password2) ){
+                    mainActivity.makeToast("Your password is not equal , please retype");
+                    return;
+                }
+
+                if (mainActivity.customerFirebaseDataCheck("id",id) == true){
+
+                    mainActivity.makeToast("your Id have been created , please chose another one");
+                    return;
+                }
+
+                Map<String, String> data = new HashMap<>();
+                data.put("id", id);
+                data.put("name",name);
+                data.put("password",password);
+                data.put("email",email);
+                Task<Void> result = mainActivity.customerFirebaseDataSet(id,data);
+                result.addOnSuccessListener(unused -> {
+                   mainActivity.makeToast("Registering ok~~~~~");
+                });
+
+                result.addOnFailureListener(e -> {
+                    mainActivity.makeToast("Register failed. Try again ");
+                });
+
             }
+
         });
 
 
