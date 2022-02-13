@@ -7,11 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
 import com.example.finalproject_origin.MainActivity;
 import com.example.finalproject_origin.R;
@@ -67,7 +64,7 @@ public class UserFragment extends Fragment {
 
 
     private Button btn_user_regist, btn_user_login;
-    private EditText et_user_id, et_user_name, et_user_email;
+    private EditText et_user_id, et_user_password, et_user_email;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,18 +76,18 @@ public class UserFragment extends Fragment {
         btn_user_login = v.findViewById(R.id.btn_user_login);
 
         et_user_id = v.findViewById(R.id.et_user_id);
-        et_user_name = v.findViewById(R.id.et_user_name);
-        et_user_email = v.findViewById(R.id.et_user_email);
+        et_user_password = v.findViewById(R.id.et_user_password);
 
         btn_user_login.setOnClickListener(new DataCheck());
         btn_user_regist.setOnClickListener(new DataCheck());
+
 
         mainActivity = (MainActivity) getActivity();
 
         return v;
     }
 
-    private class DataCheck implements View.OnClickListener {
+    class DataCheck implements View.OnClickListener {
         private Intent intent;
 
         @Override
@@ -100,7 +97,8 @@ public class UserFragment extends Fragment {
                 case R.id.btn_user_login:
 
 
-
+                    et_user_id.setText("");
+                    et_user_password.setText("");
                     break;
 
                 case R.id.btn_user_regist:

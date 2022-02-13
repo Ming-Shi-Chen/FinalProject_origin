@@ -7,12 +7,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 
 import com.example.finalproject_origin.ui.HomeFragment;
@@ -77,12 +76,15 @@ public class MainActivity extends AppCompatActivity {
 //        appBarConfiguration = new AppBarConfiguration.Builder(
 //                R.id.navigation_home, R.id.navigation_dash, R.id.navigation_user)
 //                .build();
-
+//
 //        navHostFragment = (NavHostFragment) getSupportFragmentManager()
 //                .findFragmentById(R.id.fragment_main);
-//        navController = Navigation.findNavController(this, R.id.fragment_main);
+////        navHostFragment = NavHostFragment.create(R.navigation.bottom_navigation);
+//
+//
+////        navController = Navigation.findNavController(this, R.id.fragment_main);
 //        navController = navHostFragment.getNavController();
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+////        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 //        NavigationUI.setupWithNavController(navView, navController);
 
 
@@ -112,12 +114,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void startFragment(Fragment fragment,String tag){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_main,fragment).commit();
+//                .setCustomAnimations(R.anim.trans_in_from_left,R.anim.no_anim)
+                .setCustomAnimations(R.anim.trans_in_from_left,R.anim.trans_out_to_right)
+                .replace(R.id.fragment_main,fragment)
+                .commit();
     }
 
 
     public void showRegistFragment() {
         startFragment(registFragment, "regist");
 
+    }
+
+    public void makeToast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

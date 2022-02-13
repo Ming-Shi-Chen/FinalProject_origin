@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.finalproject_origin.MainActivity;
 import com.example.finalproject_origin.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -67,11 +69,12 @@ public class RegistFragment extends Fragment {
     }
 
 
-    private EditText et_regist_id, et_regist_name, et_regist_email;
+    private EditText et_regist_id, et_regist_name, et_regist_email, et_regist_password, et_regist_password2;
     private Button btn_regist_cancel, btn_regist_regist;
     private FirebaseDatabase firebaseControl;
     private DatabaseReference dataReference;
     private ArrayList<Map<String, String>> customerList;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,24 +85,43 @@ public class RegistFragment extends Fragment {
         firebaseControl = FirebaseDatabase.getInstance();
         dataReference = firebaseControl.getReference().child("customer");
 
+        MainActivity mainActivity = (MainActivity) getActivity();
 
         et_regist_id = v.findViewById(R.id.et_regist_id);
+        et_regist_password = v.findViewById(R.id.et_regist_password);
+        et_regist_password2 = v.findViewById(R.id.et_regist_password2);
         et_regist_name = v.findViewById(R.id.et_regist_name);
         et_regist_email = v.findViewById(R.id.et_regist_email);
 
         btn_regist_cancel = v.findViewById(R.id.btn_regist_cancel);
         btn_regist_regist = v.findViewById(R.id.btn_regist_regist);
 
-
         btn_regist_cancel.setOnClickListener(view -> {
             et_regist_id.setText("");
             et_regist_name.setText("");
+            et_regist_email.setText("");
+            et_regist_password.setText("");
+            et_regist_password2.setText("");
         });
 
         customerList = new ArrayList<>();
 
 
+        btn_regist_regist.setOnClickListener(view -> {
+            if ( et_regist_id.length() == 0 ||
+            et_regist_password.length() == 0 ||
+            et_regist_password2.length() == 0 ||
+            et_regist_name.length() == 0 ||
+            et_regist_email.length() == 0){
 
-        return inflater.inflate(R.layout.fragment_regist, container, false);
+                mainActivity.makeToast("Please input all the data");
+
+            } else {
+
+            }
+        });
+
+
+        return v;
     }
 }

@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,11 +54,76 @@
             android:minHeight="48dp" />
     </LinearLayout>
 
+
+    <LinearLayout
+        android:id="@+id/linearLayout_psswd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <TextView
+            android:id="@+id/textView_psswd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="password:"
+            android:textColor="#009688"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/et_regist_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="your password"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_psswd2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_psswd">
+
+        <TextView
+            android:id="@+id/textView_psswd2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="password:"
+            android:textColor="#009688"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/et_regist_password2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="retype your password"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout_psswd2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
