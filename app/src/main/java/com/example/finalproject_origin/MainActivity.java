@@ -11,6 +11,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -63,12 +64,15 @@ public class MainActivity extends AppCompatActivity {
     public ArrayAdapter<String> adapter;
     private ArticleFragment articleFragment;
     public int articleIndex = 0;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        context = this;
 
         firebaseControl = FirebaseDatabase.getInstance();
         customerDataReference = firebaseControl.getReference().child("customer");
@@ -84,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         articleFragment = ArticleFragment.newInstance("","");
 
 
+
 //        fragmentManager.beginTransaction()
 //                .add(R.id.fragment_main, surfingFragment, "surf")
 //                .add(R.id.fragment_main, userFragment, "user")
@@ -93,11 +98,14 @@ public class MainActivity extends AppCompatActivity {
 //                .commit();
 
 
+
+
         navView = findViewById(R.id.nav_view);
         getSupportActionBar().setTitle("home");
 
-        //FIXME: navhostManager have error, can't find the NavManager, need to be solve to
-        // replace the setOnItemSelectedListener
+        // FIXME: navhostManager have error, can't find the NavManager, need to be solve
+        //  to replace the setOnItemSelectedListener
+
 //        appBarConfiguration = new AppBarConfiguration.Builder(
 //                R.id.navigation_home, R.id.navigation_dash, R.id.navigation_user)
 //                .build();
@@ -122,7 +130,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 customerList.clear();
+//                try {
+//                    MainActivity.this.stop(2000);
+//
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 
                 for(DataSnapshot ds: snapshot.getChildren()){
                     Map<String, String> data = new HashMap<>();
@@ -147,34 +162,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         articleDataReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                articleList.clear();
-                homeTitleList.clear();
-                for(DataSnapshot ds: snapshot.getChildren()){
-                    Map<String, String> data = new HashMap<>();
-                    String userId = (String) ds.child("id").getValue();
-                    String userName = (String) ds.child("name").getValue();
-                    String title = (String) ds.child("title").getValue();
-                    String content = (String) ds.child("content").getValue();
 
-                    data.put("id",userId);
-                    data.put("name",userName);
-                    data.put("title",title);
-                    data.put("content",content);
+                getFirebaseArticleList();
+                    articleList.clear();
+                    homeTitleList.clear();
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        Map<String, String> data = new HashMap<>();
+                        String userId = (String) ds.child("id").getValue();
+                        String userName = (String) ds.child("name").getValue();
+                        String title = (String) ds.child("title").getValue();
+                        String content = (String) ds.child("content").getValue();
 
-                    articleList.add(data);
-                    homeTitleList.add(title);
-                }
+                        data.put("id",userId);
+                        data.put("name",userName);
+                        data.put("title",title);
+                        data.put("content",content);
 
-                articleNewId = String.valueOf(articleList.size()+1);
+                        articleList.add(data);
+                        homeTitleList.add(title);
+                    }
+                    homeTitleList.add("");
+
+                    adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, homeTitleList);
+                    articleNewId = String.valueOf(articleList.size()+1);
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
 
             }
         });
@@ -184,7 +205,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,homeTitleList);
+        // FIXME : need to put this input the valueListener
+//        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, homeTitleList);
 
 
 
@@ -219,6 +241,9 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
     } //end of onCreate
+
+    private void getFirebaseArticleList() {
+    }
 
     private void startFragment(Fragment fragment,String tag){
         getSupportFragmentManager().beginTransaction()
